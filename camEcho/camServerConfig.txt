@@ -4,7 +4,7 @@
 IPADD:127.0.0.1
 
 # Video frame rate. fmt: <FRATE:(int)**>
-FRATE:10
+FRATE:20
 
 # Display mode. fmt:<DISMD:(int)**> 0:normal mode, 1:different gray-scale mode.
 DISMD:0

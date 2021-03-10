@@ -39,19 +39,18 @@ class camServer(object):
         self.client = udpCom.udpClient((self.paramDict['IPADD'], UDP_PORT))
         self.staticBack = None 
         self.termiate = False   # program terminate flag
-        self.frameRate = 10
-        self.previousFrame = None
-        self.delaySet = 0.1
-
-        # Video capture part;
+        # Video capture part:
         self.videoSrc = videoSrc
         print("Capture video from src: %s" % str(self.videoSrc))
         self.cam = cv2.VideoCapture(self.videoSrc)
         self.encodeParam = [int(cv2.IMWRITE_JPEG_QUALITY), 90] # image encode parameter
-        self.setResolution(640, 480)
-        self.data = None # image data.
-        self.imageSz = 0
-        self.now = time.time()
+        #self.setResolution(640, 480)
+        self.imageW = 1600
+        self.imageH = 900
+        self.setResolution(self.imageW, self.imageH)
+        self.data = None    # image data.
+        self.imageSz = 0    # image size 
+        self.now = time.time()  # time tag used to calculate the latency.
 
 #-----------------------------------------------------------------------------
     def loadConfig(self):
@@ -82,7 +81,6 @@ class camServer(object):
             # get a new image from the camera
             imgData = b''
             _, image = self.cam.read()
-
             if image is None:
                 print("Reload the image source.")
                 # reload the image source if can not read
@@ -91,17 +89,14 @@ class camServer(object):
                 self.cam = cv2.VideoCapture(self.videoSrc)
                 _, image = self.cam.read()
             _, frame = cv2.imencode('.jpg', image, self.encodeParam)
-            
-            
             self.data = pickle.dumps(frame, 0)
             frame = cv2.imdecode(pickle.loads(
                 self.data, fix_imports=True, encoding="bytes"), cv2.IMREAD_COLOR)
-            cv2.imshow('Orignal capture',frame)
-            # size 
+            cv2.imshow('Orignal capture',frame) # Show the orignal image.
+            
             imgSz = len(self.data)
             self.imageSz = imgSz
 
-            #imgSz = int(result.decode('utf-8'))
             rcvIterN = math.ceil(imgSz/float(BUFFER_SZ)) #iteration time to receive one img.
             print('Next image size: %s' %str(imgSz))
             for _ in range(int(rcvIterN)):
@@ -121,9 +116,20 @@ class camServer(object):
             frame = cv2.imdecode(pickle.loads(
                 imgData, fix_imports=True, encoding="bytes"), cv2.IMREAD_COLOR)
             
-            
+            timeInterval = time.time() - self.now
+            dataRate = (self.imageSz/timeInterval)//1000
+            Imglatency = timeInterval*1000/2
+            datalatency = Imglatency/rcvIterN
+            cv2.rectangle(frame, (40, 600), (550, 720), (0, 0, 0), -1)
 
-            self.detectTgt(frame)
+            cv2.putText(frame,"ImgLatency[ms]: %s" %str(Imglatency) , (50,620), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), thickness = 2)
+            cv2.putText(frame,"DataLatency[ms]: %s" % str(datalatency) , (50 ,660), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), thickness = 2)
+            cv2.putText(frame,"DataRate[kbps]: %s" % str(dataRate) , (50 ,700), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), thickness = 2) 
+            
+            cv2.imshow('Echo Back Image',frame)
+
+            # Tempory disabled the detection.
+            #self.detectTgt(frame)
 
             # if q entered whole process will stop 
             if cv2.waitKey(1) == ord('q'):
