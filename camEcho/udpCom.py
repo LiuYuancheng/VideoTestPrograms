@@ -13,7 +13,7 @@
 import time
 import socket
 
-BUFFER_SZ = 4096    # TCP buffer size.
+BUFFER_SZ = 4096    # UDP buffer size.
 RESP_TIME = 0.01
 
 #-----------------------------------------------------------------------------
