@@ -1,0 +1,86 @@
+<?xml version="1.0" encording="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+<head>
+    <title>QKD Video http Stream Server Trial</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+    <!--ping test-->
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function () {
+            
+            namespace = '/test';
+            //var socket = io();
+            var socket = io.connect('http://' + document.domain + ':' + location.port + namespace);
+            socket.on('connect', function () {
+                socket.emit('my event', { data: 'I\'m connected!' });
+            });
+
+            // Interval function that tests message latency by sending a "ping"
+            // message. The server then responds with a "pong" message and the
+            // round trip time is measured.
+            var ping_pong_times = [];
+            var start_time;
+            window.setInterval(function () {
+                start_time = (new Date).getTime();
+                socket.emit('my_ping');
+            }, 1000);
+
+            // Handler for the "pong" message. When the pong is received, the
+            // time from the ping is stored, and the average of the last 30
+            // samples is average and displayed.
+            socket.on('my_pong', function () {
+                var latency = (new Date).getTime() - start_time;
+                ping_pong_times.push(latency);
+                ping_pong_times = ping_pong_times.slice(-1); // keep last 30 samples
+                var sum = 0;
+                for (var i = 0; i < ping_pong_times.length; i++)
+                    sum += ping_pong_times[i];
+                $('#ping-pong').text(Math.round(10 * sum / ping_pong_times.length) / 10);
+            });
+        });
+    </script>
+</head>
+
+<body style="background-image: url('../static/images/bgimg3.png');">
+
+    <h1 style="color:white"><img src="../static/images/logoSingtel.png" usemap="#linkmap" alt="trustwave log" width="200"
+            style="float: left; padding: 10px;">
+            QKD Video http Stream Server Trial
+    </h1>
+
+    <hr>
+    <pre style="color:white">
+        Average HTML5 socketIO data latency: <b><span id="ping-pong"></span>ms</b>
+        
+    </pre>
+    <hr>
+    <pre style="color:white"><a id = Video1> 
+    Sample Video 1: 1280 X 960 25fps
+    </pre>
+    <hr>
+    <video width="1280" height="960" controls>
+        <source src="../static/images/Test1.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+    <hr>
+
+    <pre style="color:white"><a id = Video1> 
+        Sample Video 2: 1920 X 1080 30fps
+    </pre>
+
+    <hr>
+    <video width="1280" height="960" controls>
+        <source src="../static/images/Test2.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+
+    <hr>
+    <a href="mailto:liu_yuan_cheng@hotmail.com?subject=Report A problem&body=found a bug"> Report a problem </a>
+</body>
+
+</html>

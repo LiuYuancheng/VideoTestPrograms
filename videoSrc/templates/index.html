@@ -15,28 +15,42 @@
             QKD Video http Stream Server Trial
     </h1>
 
-<pre style="color:white"><a id = Video1> 
-Sample Video 1: 1280 X 960 25fps
-</pre>
-<hr>
-<video width="1280" height="960" controls>
-    <source src="../static/images/Test1.mp4" type="video/mp4">
-    Your browser does not support HTML5 video.
-</video>
-<hr>
+    <hr>
+    <!--ping test-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"
+        integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf-8">
+        var socket = io();
+        socket.on('connect', function () {
+            socket.emit('my event', { data: 'I\'m connected!' });
+        });
+    </script>
 
-<pre style="color:white"><a id = Video1> 
-    Sample Video 2: 1920 X 1080 30fps
-</pre>
 
-<hr>
-<video width="1280" height="960" controls>
-    <source src="../static/images/Test2.mp4" type="video/mp4">
-    Your browser does not support HTML5 video.
-</video>
+    <hr>
 
-<hr>
-<a href="mailto:liu_yuan_cheng@hotmail.com?subject=Report A problem&body=found a bug"> Report a problem </a>
+    <pre style="color:white"><a id = Video1> 
+    Sample Video 1: 1280 X 960 25fps
+    </pre>
+    <hr>
+    <video width="1280" height="960" controls>
+        <source src="../static/images/Test1.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+    <hr>
+
+    <pre style="color:white"><a id = Video1> 
+        Sample Video 2: 1920 X 1080 30fps
+    </pre>
+
+    <hr>
+    <video width="1280" height="960" controls>
+        <source src="../static/images/Test2.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+
+    <hr>
+    <a href="mailto:liu_yuan_cheng@hotmail.com?subject=Report A problem&body=found a bug"> Report a problem </a>
 </body>
 
 </html>
