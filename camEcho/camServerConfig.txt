@@ -17,3 +17,6 @@ TGMIN:400
 
 # MAX display target :<TGMIN:(int)**>
 TGMAX:10000
+
+# Set the simulation delay in ms 
+SILAT:500
