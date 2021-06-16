@@ -3,6 +3,9 @@
 # Echo client VPN Ip address. fmt: <IPADDR:(str)***.***.***.***>
 IPADD:127.0.0.1
 
+# Echo client Public IP address.fmt: <IPADDR:(str)***.***.***.***>
+PUBIP:127.0.0.1
+
 # Video frame rate. fmt: <FRATE:(int)**>
 FRATE:20
 
