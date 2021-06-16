@@ -172,6 +172,23 @@ For local test use:  http://127.0.0.1:5000/
 
 
 
+#### 5. Demo explanation 
+
+1. Today we are going to show 2 Quantum-safe Communication data transfer use case. The communication channel is protected by PQC VPN . 
+
+2. The first use case shows TCP video stream transfer though PQC VPN tunnel, we have a video server at QKD lab side(such as Youtube server) and we use the browser to view the video from CorpLab. The video fetch request and TCP vide stream are protected by the VPN tunnel. 
+3. The second use case show we send real time UDP frame data though PQC VPN tunnel as show in this pic, we capture the camera data from the corplab camera, show the video on left window, at the same time we send the data to QKD lab side through VPN tunnel, then the QKD lab side will echo this data back, at the time when we got the echo data, we will show the video on the right window. We also capture the time stamp at point 1 and point 2, then we can calculate the VPN tunnel's latency. 
+
+
+
+
+
+
+
+
+
+
+
 ------
 
 > Last edit by LiuYuancheng(liu_yuan_cheng@hotmail.com) at 15/03/2021
