@@ -1,0 +1,8 @@
+ffmpeg -re -i "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4" -f rtsp -muxdelay 0.1 "rtsp://127.0.0.1/live.sdp"
+
+
+GW2 cmd: 
+vlc -vvv rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4 --sout="#transcode{vcodec=h264,vb=800,scale=0.25,fps=10}:rtp{dst=127.0.0.1,port=444‌​4,sdp=rtsp://localhost:8080/test.sdp}"
+
+The computer your want to 
+ffplay rtsp://localhost:8080/test.sdp
