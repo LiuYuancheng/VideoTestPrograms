@@ -47,3 +47,10 @@ RTSP to RTSP:
 vlc:  https://superuser.com/questions/85170/using-vlc-as-rtsp-server
 
 ffmpeg: https://www.reddit.com/r/ffmpeg/comments/g2lvrd/ffmpeg_forwarding_rtsp_to_rtsp/fovmhn2/
+
+
+
+```
+vlc -vvv rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4 --sout="#transcode{vcodec=mp4v,vfilter=canvas{width=800,height=600}}:std{access=file,mux=mp4,dst=/home/ncs2/123.mp4}"
+```
+
